@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cena de Navidad</title>
+<style>
+  :root {
+    --rojo: #8b1e2d;
+    --verde: #1f4d3a;
+    --crema: #fbf6ee;
+    --texto: #2b2622;
+    --dorado: #b8903f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    background: var(--crema);
+    color: var(--texto);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+  .tarjeta {
+    background: #fffdf8;
+    max-width: 520px;
+    width: 100%;
+    border: 2px solid var(--dorado);
+    border-radius: 14px;
+    padding: 36px 28px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  .adorno { color: var(--dorado); font-size: 22px; letter-spacing: 6px; }
+  h1 {
+    font-family: "Brush Script MT", "Snell Roundhand", cursive;
+    color: var(--rojo);
+    font-size: 48px;
+    margin: 8px 0 4px;
+    font-weight: normal;
+  }
+  .subtitulo { color: var(--verde); font-style: italic; margin: 0 0 18px; }
+  .texto { line-height: 1.7; margin: 14px 0; }
+  .aviso-importante {
+    background: #f6ecd9;
+    border-left: 4px solid var(--dorado);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin: 18px 0;
+    text-align: left;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .datos {
+    background: var(--crema);
+    border-radius: 10px;
+    padding: 14px;
+    margin: 18px 0;
+    line-height: 1.8;
+  }
+  .datos strong { color: var(--verde); }
+  form { text-align: left; margin-top: 22px; }
+  label { display: block; font-size: 15px; margin-bottom: 6px; color: var(--verde); }
+  input, select {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #cbb994;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background: #fff;
+    font-family: inherit;
+  }
+  .botones { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+  button {
+    flex: 1;
+    min-width: 180px;
+    padding: 14px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-si { background: #25D366; color: #fff; }
+  .btn-no { background: transparent; color: var(--rojo); border: 1px solid var(--rojo); }
+  button:hover { opacity: 0.9; }
+  .aviso { font-size: 13px; color: #776d62; margin-top: 16px; }
+</style>
+</head>
+<body>
+<main class="tarjeta">
+
+  <div class="adorno">✦ ✦ ✦</div>
+  <h1>Cena de Navidad</h1>
+  <p class="subtitulo">Con todo cariño te invitamos a celebrar</p>
+
+  <p class="texto">Queremos compartir esta noche tan especial contigo y con tu familia. Tu presencia haría la celebración aún más bonita.</p>
+
+  <div class="datos">
+    <strong>Fecha:</strong> <span id="fecha">25 de diciembre</span><br>
+    <strong>Hora:</strong> <span id="hora">6:00 pm</span><br>
+    <strong>Lugar:</strong> <span id="lugar">Casa Azul</span><br>
+    <strong>Organizan:</strong> <span id="anfitriones">Wendy y familia Contreras Cortez</span>
+  </div>
+
+  <div class="aviso-importante">
+    <strong>Importante:</strong> Esta invitación es para cabezas de familia. Por favor confirma tu asistencia lo antes posible, ya que con base en el número de personas dividiremos la cooperación de la cena.
+  </div>
+
+  <form id="rsvp">
+    <label for="nombre">Nombre de la familia</label>
+    <input id="nombre" type="text" placeholder="Ej. Familia Pérez" required>
+
+    <label for="personas">¿Cuántas personas de tu familia asistirán (incluyéndote)?</label>
+    <select id="personas">
+      <option value="1">1 persona</option>
+      <option value="2" selected>2 personas</option>
+      <option value="3">3 personas</option>
+      <option value="4">4 personas</option>
+      <option value="5">5 personas</option>
+      <option value="6">6 personas</option>
+      <option value="7">7 personas o más</option>
+    </select>
+
+    <div class="botones">
+      <button type="button" class="btn-si" onclick="responder(true)">Confirmo asistencia</button>
+      <button type="button" class="btn-no" onclick="responder(false)">No podremos asistir</button>
+    </div>
+  </form>
+
+  <p class="aviso">Al tocar el botón se abrirá WhatsApp con tu respuesta lista para enviar.</p>
+</main>
+
+<script>
+  // ==== CONFIGURA AQUÍ ====
+  const CONFIG = {
+    anfitriones: "Wendy y familia Contreras Cortez",
+    whatsapp: "527971135455",   // +52 797 113 5455
+    fecha: "25 de diciembre",
+    hora: "6:00 pm",
+    lugar: "Casa Azul"
+  };
+  // ========================
+
+  document.getElementById("fecha").textContent = CONFIG.fecha;
+  document.getElementById("hora").textContent = CONFIG.hora;
+  document.getElementById("lugar").textContent = CONFIG.lugar;
+  document.getElementById("anfitriones").textContent = CONFIG.anfitriones;
+
+  function responder(asiste) {
+    const nombre = document.getElementById("nombre").value.trim();
+    const personas = document.getElementById("personas").value;
+
+    if (!nombre) {
+      alert("Por favor escribe el nombre de tu familia.");
+      return;
+    }
+    let mensaje;
+    if (asiste) {
+      mensaje = `Hola ${CONFIG.anfitriones}, somos la ${nombre}. Confirmamos nuestra asistencia a la Cena de Navidad del ${CONFIG.fecha} a las ${CONFIG.hora}. Seremos ${personas} personas. ¡Muchas gracias y nos vemos ahí!`;
+    } else {
+      mensaje = `Hola ${CONFIG.anfitriones}, somos la ${nombre}. Lamentablemente no podremos asistir a la Cena de Navidad. ¡Gracias por la invitación y que la pasen muy bonito!`;
+    }
+    const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
+  }
+</script>
+</body>
+</html>
